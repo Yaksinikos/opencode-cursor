@@ -58,7 +58,7 @@ import {
   parseToolLoopMaxRepeat,
   type ToolLoopGuard,
 } from "./provider/tool-loop-guard.js";
-import { resolveCursorAgentBinary } from "./utils/binary.js";
+import { formatShellCommandForPlatform, resolveCursorAgentBinary } from "./utils/binary.js";
 
 const log = createLogger("plugin");
 
@@ -1240,7 +1240,7 @@ async function ensureCursorProxyServer(workspaceDirectory: string, toolRouter?: 
         cmd.push("--force");
       }
 
-      const child = spawn(cmd[0], cmd.slice(1), {
+      const child = spawn(formatShellCommandForPlatform(cmd[0]), cmd.slice(1), {
         stdio: ["pipe", "pipe", "pipe"],
         shell: process.platform === "win32",
       });
