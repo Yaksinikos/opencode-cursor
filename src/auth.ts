@@ -76,7 +76,8 @@ export async function startCursorOAuth(): Promise<{
   return new Promise((resolve, reject) => {
     log.info("Starting cursor-cli login process");
 
-    const proc = spawn(resolveCursorAgentBinary(), ["login"], {
+    const binary = resolveCursorAgentBinary();    
+    const proc = spawn(process.platform === "win32" ? "${binary}" : binary, ["login"], {
       stdio: ["pipe", "pipe", "pipe"],
       shell: process.platform === "win32",
     });
